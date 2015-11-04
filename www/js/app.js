@@ -9,16 +9,17 @@ angular.module('demo', ['ionic'])
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
     $stateProvider
-        .state('root', {
-            url: '/root',
-            templateUrl: 'root.html',
-            controller: 'RootPageController'
+        .state('login', {
+            url: '/login',
+            templateUrl: 'login.html',
+            controller: 'LoginController'
         })
 
     .state('app', {
             url: '/app',
             templateUrl: 'app-abstract.html',
             abstract: true,
+            cache: true,
             controller: 'AppAbstractController'
         })
         .state('app.informations', {
@@ -31,17 +32,17 @@ angular.module('demo', ['ionic'])
             }
         })
 
-        .state('app.works', {
-            url: '/works',
-            views: {
-                'app': {
-                    templateUrl: 'app-works.html',
-                    controller: 'WorksController'
-                }
+    .state('app.works', {
+        url: '/works',
+        views: {
+            'app': {
+                templateUrl: 'app-works.html',
+                controller: 'WorksController'
             }
-        })
+        }
+    })
 
-        .state('app.contacts', {
+    .state('app.contacts', {
             url: '/contacts',
             views: {
                 'app': {
@@ -68,27 +69,42 @@ angular.module('demo', ['ionic'])
                 }
             }
         })
-        $urlRouterProvider.otherwise('/root');
         //判断是否登录
-        // var wsCache=new WebStorageCache();
-        // var UserLoginId=wsCache.get('UserLoginId');
-        // if (UserLoginId==null || UserLoginId=="") {
-        //     $urlRouterProvider.otherwise('/root');
-        // }else
-        // {
-        //     $urlRouterProvider.otherwise('/app');
-        // };
+        //var wsCache=new WebStorageCache();
+        //var UserLoginId=wsCache.get('UserLoginId');
+        //if (UserLoginId==null || UserLoginId=="") {
+    if (true) {
+        $urlRouterProvider.otherwise('/login');
+    } else {
+        $urlRouterProvider.otherwise('/app/me');
+    };
 }])
 
-.controller('RootPageController', function($scope, $ionicSideMenuDelegate) {})
+.controller('LoginController', function($scope, $ionicSideMenuDelegate) {})
 
 .controller('NavController', function($scope, $ionicSideMenuDelegate) {
         $scope.toggleLeft = function() {
             $ionicSideMenuDelegate.toggleLeft();
         };
     })
-.controller('AppAbstractController', function($scope, $ionicSideMenuDelegate) {})
-    .controller('InformationsController', function($scope, $ionicSideMenuDelegate) {})
+    .controller('AppAbstractController', function($scope, $ionicSideMenuDelegate) {})
+    .controller('InformationsController', function($scope, $ionicSideMenuDelegate, $timeout) {
+        $scope.items = ['Item 1', 'Item 2', 'Item 3'];
+
+        $scope.doRefresh = function() {
+
+            console.log('Refreshing!');
+            $timeout(function() {
+                //simulate async response
+                $scope.items.push('New Item ' + Math.floor(Math.random() * 1000) + 4);
+
+                //Stop the ion-refresher from spinning
+                $scope.$broadcast('scroll.refreshComplete');
+
+            }, 1000);
+
+        };
+    })
     .controller('WorksController', function($scope, $ionicSideMenuDelegate) {})
     .controller('ContactsController', function($scope, $ionicSideMenuDelegate) {})
     .controller('MeController', function($scope, $ionicSideMenuDelegate) {})
