@@ -1,29 +1,208 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html ng-app="demo">
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
-
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <title>用户体验与服务平台</title>
+    <!-- compiled css output -->
     <link href="css/ionic.app.css" rel="stylesheet">
-    -->
-
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
-
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
-
-    <!-- your app's js -->
+    <!-- APP js -->
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
-  </head>
+</head>
 
-  <body ng-app="starter">
+<body ng-app="starter">
+    <!-- 所有的View状态都加载到这里 -->
     <ion-nav-view></ion-nav-view>
-  </body>
+    <script id="root.html" type="text/ng-template">
+        <div ng-include="'templates/login.html'"></div>
+    </script>
+    <!-- 侧边栏 -->
+    <script id="sidemenus.html" type="text/ng-template">
+        <ion-side-menus>
+            <ion-side-menu-content ng-controller="NavController">
+                <ion-nav-bar class="bar-energized nav-title-slide-ios7">
+                    <ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i></ion-nav-back-button>
+                </ion-nav-bar>
+                <ion-nav-view name="app" animation="slide-left-right"></ion-nav-view>
+                <div ng-include="'tabs.html'"></div>
+            </ion-side-menu-content>
+            <ion-side-menu side="left" ng-controller="NavController">
+                <ion-header-bar class="bar bar-header bar-assertive">
+                    <h1 class="title">侧边栏title</h1>
+                </ion-header-bar>
+                <ion-content has-header="true">
+                    <ul class="list">
+                        <a ui-sref="app.informations" nav-clear class="item" ng-click="toggleLeft()">首页</a>
+                        <a ui-sref="app.chat" nav-clear class="item" ng-click="toggleLeft()">消息</a>
+                        <a ui-sref="app.drink" nav-clear class="item" ng-click="toggleLeft()">工作</a>
+                        <a ui-sref="app.drink" nav-clear class="item" ng-click="toggleLeft()">设置</a>
+                    </ul>
+                </ion-content>
+                <ion-footer-bar class="bar bar-footer">
+                    <a class="button button-fullwidth" ui-sref="app.logout" ng-click="toggleLeft()">退出登录</a>
+                </ion-footer-bar>
+            </ion-side-menu>
+        </ion-side-menus>
+    </script>
+    <!-- 底边栏 -->
+    <script id="tabs.html" type="text/ng-template">
+        <ion-tabs class="tabs-icon-top">
+            <ion-tab title="消息" icon="ion-chatboxes" ui-sref="app.informations">
+                <ion-nav-view name="home-tab"></ion-nav-view>
+            </ion-tab>
+            <ion-tab title="工作" icon="ion-ios-briefcase" ui-sref="app.works">
+                <ion-nav-view name="about-tab"></ion-nav-view>
+            </ion-tab>
+            <ion-tab title="联系人" icon="ion-android-contacts" ui-sref="app.contacts">
+                <ion-nav-view name="contact-tab"></ion-nav-view>
+            </ion-tab>
+            <ion-tab title="我" icon="ion-person" ui-sref="app.me">
+                <ion-nav-view name="contact-tab"></ion-nav-view>
+            </ion-tab>
+        </ion-tabs>
+    </script>
+
+    <script id="app-abstract.html" type="text/ng-template">
+        <div ng-include="'sidemenus.html'"></div>
+        
+    </script>
+    <!-- 消息 -->
+    <script id="app-informations.html" type="text/ng-template">
+        <ion-view title="用户体验与服务平台">
+            <ion-nav-buttons side="left">
+                <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+            </ion-nav-buttons>
+            <ion-content has-header="true" padding="true">
+                <h3>TODO：消息列表</h3>
+            </ion-content>
+        </ion-view>
+    </script>
+
+    <!-- 工作 -->
+    <script id="app-works.html" type="text/ng-template">
+        <ion-view title="Snd - Chat list">
+            <ion-nav-buttons side="left">
+                <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+            </ion-nav-buttons>
+            <ion-content has-header="true" padding="true">
+                <h3>Chat list</h3>
+                <div class="list">
+                    <a class="item item-avatar" href="#/app/contacts">
+                        <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Zachary_Quinto_2011.jpg/200px-Zachary_Quinto_2011.jpg" />
+                        <h2>Oliver Thredson</h2>
+                        <p>Im a psychiatrist at Briarcliff Institute</p>
+                    </a>
+                    <a class="item item-avatar" href="#/app/contacts">
+                        <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Sarah_Paulson_12_Years_a_Slave_55_cropped.jpg/129px-Sarah_Paulson_12_Years_a_Slave_55_cropped.jpg" />
+                        <h2>Lana Winters</h2>
+                        <p>Im an ambitious journalist committed to the asylum</p>
+                    </a>
+                    <a class="item item-avatar" href="#/app/contacts">
+                        <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Evan_Peters_by_Gage_Skidmore.jpg/165px-Evan_Peters_by_Gage_Skidmore.jpg" />
+                        <h2>Kit Walker</h2>
+                        <p>Im an inmate at Briarcliff Institute</p>
+                    </a>
+                </div>
+            </ion-content>
+            <div class="tabs tabs-icon-only">
+                <a nav-clear class="tab-item disable-user-behavior" title="Home" nav-clear ui-sref="app.informations">
+                    <i class="icon ion-home"></i><span class="tab-title ng-binding" ng-bind-html="title"></span>
+                </a>
+                <a nav-clear class="tab-item disable-user-behavior active" title="Chat" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline" ui-sref="app.chat">
+                    <i class="icon ion-chatbubbles"></i><span class="tab-title ng-binding" ng-bind-html="title"></span>
+                </a>
+                <a nav-clear class="tab-item disable-user-behavior" title="Drink" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline" ui-sref="app.drink">
+                    <i class="icon ion-wineglass"></i><span class="tab-title ng-binding" ng-bind-html="title"></span>
+                </a>
+            </div>
+        </ion-view>
+    </script>
+
+    <!-- 联系人 -->
+    <script id="app-contacts.html" type="text/ng-template">
+        <ion-view title="Oliver Thredson">
+            <ion-content has-header="true" padding="true">
+                <div class="list card">
+                    <div class="item item-avatar">
+                        <img src="http://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Zachary_Quinto_2011.jpg/200px-Zachary_Quinto_2011.jpg">
+                        <h2>Oliver Thredson</h2>
+                        <p>Im a psychiatrist at Briarcliff Institute</p>
+                    </div>
+                    <div class="item item-body">
+                        <p>
+                            Unlike most of the staff at Briarcliff, Dr Thredson was stoically calm and clinical around patients at the beginning of the series. He also had a less barbaric outlook towards treatment, saying that more compassion would greatly improve conditions for the patients. He was willing to look at the patients as more than just insane criminals in comparison to the sadistic treatment of Sister Jude. However, in his alter ego as "Bloody Face", he reverted to his darker side - an unhinged, sadistic murderer with deep-seated maternal abandonment issues.
+                        </p>
+                        <p>
+                            <a href="#" class="subdued">1 Like</a>
+                        </p>
+                    </div>
+                    <div class="item tabs tabs-secondary tabs-icon-left">
+                        <a class="tab-item" href="#">
+                            <i class="icon ion-thumbsup"></i> Like
+                        </a>
+                        <a class="tab-item" href="#">
+                            <i class="icon ion-chatbubbles"></i> Chat
+                        </a>
+                    </div>
+                </div>
+            </ion-content>
+        </ion-view>
+    </script>
+
+    <!-- 我 -->
+    <script id="app-me.html" type="text/ng-template">
+        <ion-view title="我的设置">
+            <ion-nav-buttons side="left">
+                <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+            </ion-nav-buttons>
+            <ion-content has-header="true" padding="true">
+                <h3>Drink list</h3>
+                <div class="list">
+                    <a class="item item-avatar" href="#">
+                        <img src="http://lh6.ggpht.com/FftLqhhGQXPTySOyXdZBtMPh81Sgu_bsKthhzMu-U_7UJ8-Zbzk3mrbsa0th-Vv28LNWvZMBt-_B5i89q_HEzhM=s230-c" />
+                        <h2>Ultimate Bloody Mary</h2>
+                        <p>Tomato juice, habanero, aquavit and Lea & Perrins Worcestershire Sauce</p>
+                    </a>
+                    <a class="item item-avatar" href="#">
+                        <img src="http://lh5.ggpht.com/QR4CdPeEJjRZWlr7QjFUmuSfbMFezyWPv5udJQoqIKrHhdDYCXzHKx2Rwn9cq-1TbpEFoSUHtn_TUnDO0KnvkA=s230-c" />
+                        <h2>Bloody Scary</h2>
+                        <p>Blood orange juice, campari, prosecco, vodka and simple syrup</p>
+                    </a>
+                    <a class="item item-avatar" href="#">
+                        <img src="http://lh5.ggpht.com/hHUPkpVrUoxEVnDlXuS1h2yOgGKuvi2Td9Gr8lrFgxWdB_ExbgLvZ8AOKKoX2luv_-GIkuH72UA9nYx9IiRHAA=s230-c" />
+                        <h2>Wasabi Bloody Marys</h2>
+                        <p>Ice, tomato juice, vodka, wasabi powder, soy sauce, lemon juice and more</p>
+                    </a>
+                </div>
+            </ion-content>
+            <div class="tabs tabs-icon-only">
+                <a nav-clear class="tab-item disable-user-behavior" title="Home" nav-clear ui-sref="app.informations">
+                    <i class="icon ion-home"></i><span class="tab-title ng-binding" ng-bind-html="title"></span>
+                </a>
+                <a nav-clear class="tab-item disable-user-behavior" title="Chat" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline" ui-sref="app.chat">
+                    <i class="icon ion-chatbubbles"></i><span class="tab-title ng-binding" ng-bind-html="title"></span>
+                </a>
+                <a nav-clear class="tab-item disable-user-behavior active" title="Drink" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline" ui-sref="app.drink">
+                    <i class="icon ion-wineglass"></i><span class="tab-title ng-binding" ng-bind-html="title"></span>
+                </a>
+            </div>
+        </ion-view>
+    </script>
+
+    <script id="app-logout.html" type="text/ng-template">
+        <ion-view title="退出登录">
+            <ion-content has-header="true" padding="true">
+                是否要退出登录？</br>
+                <button class="button button-fullwidth" nav-clear ui-sref="app.informations">退出</button>
+            </ion-content>
+        </ion-view>
+    </script>
+</body>
+
 </html>

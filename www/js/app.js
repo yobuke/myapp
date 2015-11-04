@@ -4,70 +4,92 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers'])
+angular.module('demo', ['ionic'])
 
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
+.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-    }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
-  });
-})
-
-.config(function($stateProvider, $urlRouterProvider) {
-  $stateProvider
+    $stateProvider
+        .state('root', {
+            url: '/root',
+            templateUrl: 'root.html',
+            controller: 'RootPageController'
+        })
 
     .state('app', {
-    url: '/app',
-    abstract: true,
-    templateUrl: 'templates/menu.html',
-    controller: 'AppCtrl'
-  })
+            url: '/app',
+            templateUrl: 'app-abstract.html',
+            abstract: true,
+            controller: 'AppAbstractController'
+        })
+        .state('app.informations', {
+            url: '/informations',
+            views: {
+                'app': {
+                    templateUrl: 'app-informations.html',
+                    controller: 'InformationsController'
+                }
+            }
+        })
 
-  .state('app.search', {
-    url: '/search',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/search.html'
-      }
-    }
-  })
+        .state('app.works', {
+            url: '/works',
+            views: {
+                'app': {
+                    templateUrl: 'app-works.html',
+                    controller: 'WorksController'
+                }
+            }
+        })
 
-  .state('app.browse', {
-      url: '/browse',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/browse.html'
-        }
-      }
+        .state('app.contacts', {
+            url: '/contacts',
+            views: {
+                'app': {
+                    templateUrl: 'app-contacts.html',
+                    controller: 'ContactsController'
+                }
+            }
+        })
+        .state('app.me', {
+            url: '/me',
+            views: {
+                'app': {
+                    templateUrl: 'app-me.html',
+                    controller: 'MeController'
+                }
+            }
+        })
+        .state('app.logout', {
+            url: '/logout',
+            views: {
+                'app': {
+                    templateUrl: 'app-logout.html',
+                    controller: 'LogoutController'
+                }
+            }
+        })
+        $urlRouterProvider.otherwise('/root');
+        //判断是否登录
+        // var wsCache=new WebStorageCache();
+        // var UserLoginId=wsCache.get('UserLoginId');
+        // if (UserLoginId==null || UserLoginId=="") {
+        //     $urlRouterProvider.otherwise('/root');
+        // }else
+        // {
+        //     $urlRouterProvider.otherwise('/app');
+        // };
+}])
+
+.controller('RootPageController', function($scope, $ionicSideMenuDelegate) {})
+
+.controller('NavController', function($scope, $ionicSideMenuDelegate) {
+        $scope.toggleLeft = function() {
+            $ionicSideMenuDelegate.toggleLeft();
+        };
     })
-    .state('app.playlists', {
-      url: '/playlists',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/playlists.html',
-          controller: 'PlaylistsCtrl'
-        }
-      }
-    })
-
-  .state('app.single', {
-    url: '/playlists/:playlistId',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/playlist.html',
-        controller: 'PlaylistCtrl'
-      }
-    }
-  });
-  // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/playlists');
-});
+.controller('AppAbstractController', function($scope, $ionicSideMenuDelegate) {})
+    .controller('InformationsController', function($scope, $ionicSideMenuDelegate) {})
+    .controller('WorksController', function($scope, $ionicSideMenuDelegate) {})
+    .controller('ContactsController', function($scope, $ionicSideMenuDelegate) {})
+    .controller('MeController', function($scope, $ionicSideMenuDelegate) {})
+    .controller('LogoutController', function($scope, $ionicSideMenuDelegate) {})
